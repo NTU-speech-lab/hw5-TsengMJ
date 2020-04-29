@@ -156,10 +156,10 @@ def segmentation(input):
     return slic(input, n_segments=100, compactness=1, sigma=1)
 
 
-img_indices = [2000, 9003, 5002, 5003]
+img_indices = [2000, 3001, 5002, 5003]
 
 images, labels = train_set.getbatch(img_indices)
-fig, axs = plt.subplots(1, 4, figsize=(15, 8))
+fig, axs = plt.subplots(2, 4, figsize=(15, 8))
 np.random.seed(16)
 
 mask = None
@@ -181,7 +181,8 @@ for idx, (image, label) in enumerate(zip(images.permute(0, 2, 3, 1).numpy(), lab
     
     img = train_set.x[img_indices[idx]][:, :, [2,1,0]]
     mask = mask.reshape((128,128,1)).astype('uint8')
-    axs[idx].imshow(cv2.bitwise_and(img, img, mask = mask))
+    axs[0][idx].imshow(img)
+    axs[1][idx].imshow(cv2.bitwise_and(img, img, mask = mask))
 
 plt.savefig(os.path.join(output_dir, "LIME_example.png"))
 ## Lime
